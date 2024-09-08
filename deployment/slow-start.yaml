@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slow-start
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slow-start
+  template:
+    metadata:
+      labels:
+        app: slow-start
+    spec:
+      containers:
+      - name: busybox
+        image: registry.k8s.io/busybox
+        args:
+          - /bin/sh
+          - -c
+          - 'trap : TERM INT; echo "warmup"; sleep 20; touch /tmp/healthy; echo "started"; sleep 999999999 & wait'
+        readinessProbe:
+          exec:
+            command:
+              - cat
+              - /tmp/healthy
+          initialDelaySeconds: 30
+          periodSeconds: 5
