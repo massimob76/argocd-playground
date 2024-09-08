@@ -1,8 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: slow-start-appset
+  name: slow-start-appset-part-1
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '4'
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
