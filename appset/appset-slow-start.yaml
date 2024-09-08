@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: guestbook
+  name: slow-start-appset
   namespace: argocd
 spec:
   goTemplate: true
@@ -9,25 +9,29 @@ spec:
   generators:
     - list:
         elements:
-          - name: guestbook-1
-            namespace: guestbook-a
-          - name: guestbook-2
-            namespace: guestbook-b
-          - name: guestbook-3
-            namespace: guestbook-c
+          - name: slow-start-1
+            namespace: slow-start-1
+            wave: 2
+          - name: slow-start-2
+            namespace: slow-start-2
+            wave: 1
   template:
     metadata:
       name: '{{.name}}'
       namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{.wave}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       destination:
         namespace: '{{.namespace}}'
         server: https://kubernetes.default.svc
       project: default
       source:
-        path: guestbook
-        repoURL: https://github.com/argoproj/argocd-example-apps
-        targetRevision: master
+        path: deployment
+        repoURL: https://github.com/massimob76/argocd-playground.git
+        targetRevision: main
       syncPolicy:
         automated:
           prune: true
