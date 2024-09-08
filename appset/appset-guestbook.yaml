@@ -11,19 +11,14 @@ spec:
         elements:
           - name: guestbook-1
             namespace: guestbook-a
-            wave: 1
           - name: guestbook-2
             namespace: guestbook-b
-            wave: 2
           - name: guestbook-3
             namespace: guestbook-c
-            wave: 3
   template:
     metadata:
       name: '{{.name}}'
       namespace: argocd
-      annotations:
-        argocd.argoproj.io/sync-wave: '{{.wave}}'
     spec:
       destination:
         namespace: '{{.namespace}}'
