@@ -11,6 +11,10 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/ma
 or
 `kubectl port-forward svc/argocd-server -n argocd 8080:443`
 
+## Configuration
+kubectl apply -f argocd/argocd-cm.yaml
+kubectl apply -f argocd/argocd-cmd-params-cm.yaml
+
 ## Application
 kubectl apply -f application.yaml
 
