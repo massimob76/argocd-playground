@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: catalogue
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - name: slow-start-c
+            wave: 1
+          - name: slow-start-d
+            wave: 2
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+        - matchExpressions:
+            - key: wave
+              operator: In
+              values:
+                - "1"
+        - matchExpressions:
+            - key: wave
+              operator: In
+              values:
+                - "2"
+  template:
+    metadata:
+      name: '{{.name}}-catalogue'
+      namespace: argocd
+      labels:
+        wave: '{{.wave}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: argocd
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        path: 'app-{{.name}}-sleep-box'
+        repoURL: https://github.com/massimob76/argocd-playground.git
+        targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
