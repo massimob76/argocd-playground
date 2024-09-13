@@ -14,13 +14,14 @@ spec:
           args:
             - /bin/sh
             - -c
-            - 'trap : TERM INT; echo "waiting..."; sleep 15; touch /tmp/healthy; echo "started"; sleep 30 & wait'
-          readinessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            - 'sleep 15'
+      #            - 'trap : TERM INT; echo "waiting..."; sleep 15; touch /tmp/healthy; echo "started"; sleep 30 & wait'
+      #          readinessProbe:
+      #            exec:
+      #              command:
+      #                - cat
+      #                - /tmp/healthy
+      #            initialDelaySeconds: 10
+      #            periodSeconds: 5
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 1
