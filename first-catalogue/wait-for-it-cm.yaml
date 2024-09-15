@@ -2,9 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: wait-for-it
-#  annotations:
-#    argocd.argoproj.io/hook: PostSync
-#    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 data:
   # https://github.com/vishnubob/wait-for-it/blob/master/wait-for-it.sh
   wait-for-it.sh: |
