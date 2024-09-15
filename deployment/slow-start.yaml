@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: slow-start
+        underObservation: "true"
     spec:
       containers:
       - name: busybox

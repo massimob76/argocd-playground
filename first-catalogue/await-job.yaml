@@ -10,6 +10,7 @@ spec:
     metadata:
       labels:
         app: await-for-service
+        underObservation: "true"
     spec:
       containers:
         - name: bash

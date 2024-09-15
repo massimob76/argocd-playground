@@ -23,6 +23,7 @@ spec:
       labels:
         app: nginx
         testService: service
+        underObservation: "true"
     spec:
       initContainers:
         - name: busybox
