@@ -22,6 +22,6 @@ kubectl apply -f application.yaml
 kubectl apply -f app-of-apps/app-of-apps-guestbook.yaml
 
 ## Miscellaneous
-kubectl get pods -A -l app=slow-start --output=custom-columns='NAME:.metadata.name,NAMESPACE:.metadata.namespace,TIME:.metadata.creationTimestamp' --sort-by='.metadata.creationTimestamp'
+kubectl get pods -A -l underObservation=true --output=custom-columns='NAME:.metadata.name,NAMESPACE:.metadata.namespace,TIME:.metadata.creationTimestamp' --sort-by='.metadata.creationTimestamp'
 kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
 kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never -- curl http://nginx-servicenginx-service
