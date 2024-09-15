@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: await-for-service
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    metadata:
+      labels:
+        app: await-for-service
+    spec:
+      containers:
+        - name: bash
+          image: bash
+          args:
+            - /bin/sh
+            - -c
+            - '/wait-for-it/wait-for-it.sh nginx-service.nginx-service.svc.cluster.local:80 --timeout=20 --strict -- echo "service is up"'
+          volumeMounts:
+            - name: wait-for-it
+              mountPath: /wait-for-it
+      volumes:
+        - name: wait-for-it
+          configMap:
+            defaultMode: 0500
+            name: wait-for-it
+      restartPolicy: Never
+  backoffLimit: 1
