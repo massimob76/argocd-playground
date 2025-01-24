@@ -33,7 +33,7 @@ spec:
       source:
         path: deployment
         repoURL: https://github.com/massimob76/argocd-playground.git
-        targetRevision: main
+        targetRevision: no-existent
       syncPolicy:
         automated:
           prune: true
